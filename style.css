@@ -1,0 +1,363 @@
+:root {
+    --primary: #4a90e2;    --secondary: #e74c3c;
+    --dark: #2c3e50;
+    --light: #ecf0f1;
+    --bg-color: #1a1a1a;
+    --accent: #f1c40f;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0; padding: 0;
+    font-family: "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
+    user-select: none;
+}
+
+body {
+    background-color: var(--bg-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    touch-action: manipulation;
+    overflow: hidden;
+}
+
+#game-container {
+    width: 100%;
+    max-width: 480px;
+    height: 100%;
+    max-height: 850px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0,0,0,0.8);
+    display: flex;
+    flex-direction: column;
+    background: #87CEEB; /* フォールバック */
+}
+
+/* Background Layers for scrolling */
+#bg-layer {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 0;
+    overflow: hidden;
+}
+.bg-scroll {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image: url('images/bg.png');
+    background-size: cover;
+    background-position: center bottom;
+    z-index: 1;
+}
+#bg-2 {
+    left: 100%;
+}
+.scrolling .bg-scroll {
+    animation: scrollBg 5s linear infinite;
+}
+@keyframes scrollBg {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+}
+
+/* Screens */
+.screen {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+    padding: 20px;
+    z-index: 10;
+}
+.screen.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* UI Elements Overlay */
+.title-bg-overlay {
+    position: absolute; top:0; left:0; width:100%; height:100%;
+    background: rgba(0,0,0,0.6);
+    z-index: -1;
+}
+
+/* Typography */
+h1 {
+    color: var(--light);
+    font-size: 42px;
+    text-align: center;
+    text-shadow: 2px 2px 4px #000, 0 0 10px var(--primary);
+    margin-bottom: 10px;
+    line-height: 1.2;
+}
+
+.subtitle {
+    color: #ffd700;
+    font-size: 16px;
+    margin-bottom: 30px;
+    text-shadow: 1px 1px 2px #000;
+    font-weight: bold;
+}
+
+.story-panel {
+    background: rgba(0,0,0,0.8);
+    padding: 30px 20px;
+    border-radius: 15px;
+    border: 2px solid var(--primary);
+    margin-bottom: 30px;
+}
+.story-panel p {
+    color: #fff;
+    font-size: 16px;
+    line-height: 2;
+    margin-bottom: 15px;
+    text-align: center;
+}
+.story-panel .impact-text {
+    color: var(--secondary);
+    font-weight: bold;
+    font-size: 18px;
+    margin-top: 20px;
+    text-shadow: 1px 1px 2px #000;
+}
+
+/* Images Container */
+.hero-image-container {
+    width: 200px;
+    height: 200px;
+    margin-bottom: 40px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    background: rgba(255,255,255,0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.title-hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Battle & Adventure Layout */
+#battle-screen {
+    justify-content: space-between;
+    padding: 0;
+}
+
+.top-status {
+    width: 100%;
+    padding: 20px 15px 10px;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    z-index: 20;
+}
+
+.status-bar {
+    flex: 1;
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+    color: white;
+    transition: opacity 0.5s;
+}
+.hero-status { border-color: var(--primary); }
+.enemy-status { border-color: var(--secondary); }
+
+.name { font-weight: bold; font-size: 14px; display: block; margin-bottom: 5px; }
+
+.hp-bar-container {
+    width: 100%; height: 12px;
+    background: #333;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 5px;
+}
+.hp-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #2ecc71, #27ae60);
+    width: 100%;
+    transition: width 0.3s ease, background-color 0.3s;
+}
+.enemy-bar { background: linear-gradient(90deg, #e74c3c, #c0392b); }
+.hp-text { font-size: 12px; text-align: right; display: block; }
+
+/* Action Stage (Adventure Area) */
+.action-stage {
+    flex-grow: 1;
+    width: 100%;
+    position: relative;
+    z-index: 10;
+}
+
+#adventure-hero {
+    position: absolute;
+    bottom: 20px;
+    left: 10%;
+    width: 120px;
+    height: 180px;
+    object-fit: contain;
+    transition: left 1s ease-out;
+    filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.5));
+}
+#adventure-hero.walking {
+    animation: bob 0.5s infinite alternate;
+}
+
+#adventure-enemy {
+    position: absolute;
+    bottom: 20px;
+    right: 5%;
+    width: 160px;
+    height: 180px;
+    object-fit: contain;
+    filter: drop-shadow(2px 4px 8px rgba(0,0,0,0.7));
+}
+#adventure-enemy.floating {
+    animation: floating 3s ease-in-out infinite;
+}
+
+/* Items */
+.game-item {
+    position: absolute;
+    bottom: 30px;
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    /* initial state off screen to right */
+    left: 100%; 
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+    transition: left 3s linear;
+    cursor: pointer;
+}
+.item-bad { filter: drop-shadow(0 0 8px rgba(255,0,0,0.8)); }
+.item-good { filter: drop-shadow(0 0 8px rgba(0,255,0,0.8)); }
+
+/* Bottom UI */
+.bottom-interface {
+    width: 100%;
+    padding: 10px 15px 20px;
+    z-index: 20;
+}
+
+.message-box {
+    width: 100%;
+    min-height: 80px;
+    background: rgba(0,0,0,0.85);
+    border: 2px solid var(--light);
+    border-radius: 10px;
+    color: white;
+    padding: 15px;
+    margin-bottom: 10px;
+    font-size: 15px;
+    line-height: 1.5;
+    box-shadow: 0 -4px 10px rgba(0,0,0,0.3);
+}
+
+.action-menu {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    width: 100%;
+}
+.action-menu button {
+    padding: 15px;
+    background: linear-gradient(to bottom, #34495e, #2c3e50);
+    border: 2px solid #5a6d80;
+    color: white;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.action-menu button:active { background: #1a252f; transform: scale(0.98); }
+.action-menu button.special { grid-column: 1 / -1; background: linear-gradient(to bottom, #d35400, #e67e22); border-color: #f1c40f; }
+.mp-cost { font-size: 12px; color: #ccc; font-weight: normal; }
+
+.instruction-text {
+    text-align: center;
+    color: #fff;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px #000;
+    animation: blink 1.5s infinite;
+}
+
+.action-btn {
+    padding: 15px 30px;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(to bottom, var(--primary), #2980b9);
+    border: none;
+    border-radius: 30px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    cursor: pointer;
+    transition: transform 0.1s;
+}
+.action-btn:active { transform: scale(0.95); }
+
+#result-screen { background: rgba(0,0,0,0.85); }
+
+/* Animations */
+@keyframes bob {
+    0% { transform: translateY(0) rotate(0deg); }
+    100% { transform: translateY(-8px) rotate(2deg); }
+}
+
+@keyframes floating {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+.shake { animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both; }
+@keyframes shake {
+  10%, 90% { transform: translate3d(-2px, 0, 0); }
+  20%, 80% { transform: translate3d(4px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-6px, 0, 0); }
+  40%, 60% { transform: translate3d(6px, 0, 0); }
+}
+
+.flash { animation: flash 0.3s ease-out; }
+@keyframes flash {
+    0% { filter: brightness(1) invert(0); }
+    50% { filter: brightness(2) invert(1); }
+    100% { filter: brightness(1) invert(0); }
+}
+
+.heal-effect { animation: heal 0.5s ease-out; }
+@keyframes heal {
+    0% { filter: contrast(1) drop-shadow(0 0 0 green); transform:scale(1); }
+    50% { filter: contrast(1.2) drop-shadow(0 0 20px green); transform:scale(1.05); }
+    100% { filter: contrast(1) drop-shadow(0 0 0 green); transform:scale(1); }
+}
+
+.damage-effect { animation: redflash 0.5s ease-out; }
+@keyframes redflash {
+    0% { filter: drop-shadow(0 0 0 red); }
+    50% { filter: drop-shadow(0 0 30px red) sepia(1) hue-rotate(-50deg) saturate(3); }
+    100% { filter: drop-shadow(0 0 0 red); }
+}
+
+.attack-move { animation: dash 0.5s ease-in-out; }
+@keyframes dash {
+    0% { transform: translateX(0); }
+    50% { transform: translateX(80px); }
+    100% { transform: translateX(0); }
+}

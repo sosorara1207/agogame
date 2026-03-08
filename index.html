@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>顎ニキビ撃退RPG 3Dアドベンチャー</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="game-container">
+        
+        <!-- 背景・アドベンチャーレイヤー -->
+        <div id="bg-layer">
+            <div class="bg-scroll" id="bg-1"></div>
+            <div class="bg-scroll" id="bg-2"></div>
+        </div>
+
+        <!-- Title Screen -->
+        <div id="title-screen" class="screen active">
+            <div class="title-bg-overlay"></div>
+            <h1>顎ニキビ<br>撃退RPG</h1>
+            <p class="subtitle">〜明日は待ちに待ったデートなのに〜</p>
+            <div class="hero-image-container title-hero">
+                <img src="images/hero.png" alt="Hero" id="title-hero-img">
+            </div>
+            <button id="start-btn" class="action-btn">冒険スタート</button>
+        </div>
+
+        <!-- Story Screen -->
+        <div id="story-screen" class="screen">
+            <div class="story-panel">
+                <p>明日は待ちに待った初デート…</p>
+                <p>気合を入れて鏡を見た僕の顎には、</p>
+                <p>赤く腫れ上がった巨大なアイツが鎮座していた。</p>
+                <p>「ふははは！お前の青春、私が頂く！」</p>
+                <p class="impact-text">肌を整えながら、アイツを倒せ！</p>
+            </div>
+            <button id="to-adventure-btn" class="action-btn">出発する</button>
+        </div>
+
+        <!-- Adventure & Battle Screen -->
+        <div id="battle-screen" class="screen">
+            <!-- Top Status -->
+            <div class="top-status">
+                <div class="status-bar hero-status">
+                    <span class="name">マッシュの僕</span>
+                    <div class="hp-bar-container">
+                        <div class="hp-bar" id="hero-hp-bar"></div>
+                    </div>
+                    <span class="hp-text" id="hero-hp-text">100/100</span>
+                </div>
+                <!-- Enemy Status (Hidden in adventure phase) -->
+                <div class="status-bar enemy-status" id="enemy-status-box" style="visibility: hidden; opacity: 0;">
+                    <span class="name">顎ニキビ魔王</span>
+                    <div class="hp-bar-container">
+                        <div class="hp-bar enemy-bar" id="enemy-hp-bar"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Area (Adventure & Battle) -->
+            <div class="action-stage">
+                <img src="images/hero.png" alt="Hero" id="adventure-hero" class="walking">
+                <img src="images/boss.png" alt="Acne Demon" id="adventure-enemy" style="display: none;">
+                <!-- アイテムがここに追加される -->
+                <div id="items-container"></div>
+            </div>
+
+            <!-- Bottom Interface -->
+            <div class="bottom-interface">
+                <div class="message-box" id="message-box">
+                    キャンパス内を走って肌を整えよう！
+                </div>
+                
+                <!-- Battle Actions -->
+                <div class="action-menu" id="action-menu" style="display: none;">
+                    <button class="battle-btn" data-action="attack">洗顔バッシュ<br><span class="mp-cost">物理</span></button>
+                    <button class="battle-btn" data-action="heal">高級化粧水<br><span class="mp-cost">回復</span></button>
+                    <button class="battle-btn special" data-action="special">皮膚科の薬<br><span class="mp-cost">残: 2</span></button>
+                </div>
+                
+                <!-- Adventure controls (optional manual move, currently auto) -->
+                <div id="adventure-controls">
+                    <p class="instruction-text">タップしてアイテムを取ろう！</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Result Screen -->
+        <div id="result-screen" class="screen">
+            <h1 id="result-title">Victory!</h1>
+            <p id="result-desc">ニキビは消滅した！<br>自信を持ってデートに行けるぞ！</p>
+            <button id="retry-btn" class="action-btn">もう一度</button>
+        </div>
+    </div>
+
+    <!-- Audio elements -->
+    <audio id="bgm-title" loop>
+        <source src="https://assets.mixkit.co/music/preview/mixkit-game-level-music-689.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="bgm-battle" loop>
+        <source src="https://assets.mixkit.co/music/preview/mixkit-cyberpunk-action-112.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="se-attack">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-punch-with-short-whistle-2049.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="se-heal">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-magic-sparkle-1402.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="se-item">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-arcade-game-jump-coin-216.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="se-damage">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-boxer-getting-hit-2055.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="script.js"></script>
+</body>
+</html>
